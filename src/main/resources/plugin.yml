@@ -1,0 +1,13 @@
+name: ServerEssentials
+version: ${project.version}
+main: de.marvinleiers.serveressentials.ServerEssentials
+api-version: 1.16
+authors: [ Marvin_Leiers ]
+description: Commands every server should have
+website: https://www.marvinleiers.de
+
+commands:
+  tpa:
+
+depend:
+  - MPlugin
