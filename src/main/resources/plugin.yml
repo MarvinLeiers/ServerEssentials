@@ -8,6 +8,7 @@ website: https://www.marvinleiers.de
 
 commands:
   tpa:
+  vanish:
 
 depend:
   - MPlugin
