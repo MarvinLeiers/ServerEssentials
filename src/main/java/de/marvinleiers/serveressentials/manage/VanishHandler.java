@@ -3,11 +3,13 @@ package de.marvinleiers.serveressentials.manage;
 import de.marvinleiers.serveressentials.ServerEssentials;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 
@@ -15,6 +17,16 @@ public class VanishHandler
 {
     private static final ArrayList<Player> vanished = new ArrayList<>();
     private static VanishHandler instance;
+    private Scoreboard scoreboard;
+    private Team vanishedTeam;
+
+    private VanishHandler()
+    {
+        this.scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+        vanishedTeam = scoreboard.registerNewTeam("vanished");
+
+        vanishedTeam.setCanSeeFriendlyInvisibles(true);
+    }
 
     public void togglePlayer(Player player)
     {
@@ -49,8 +61,11 @@ public class VanishHandler
     {
         if (vanished.contains(player)) return;
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 1,
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 10,
                 false, false, false));
+
+        vanishedTeam.addEntry(player.getName());
+        player.setScoreboard(scoreboard);
 
         vanished.add(player);
     }
@@ -60,6 +75,10 @@ public class VanishHandler
         vanished.remove(player);
 
         player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        vanishedTeam.removeEntry(player.getName());
+
+        for (Player all : Bukkit.getOnlinePlayers())
+            all.showPlayer(ServerEssentials.getMPlugin(), player);
     }
 
     public static VanishHandler getInstance()

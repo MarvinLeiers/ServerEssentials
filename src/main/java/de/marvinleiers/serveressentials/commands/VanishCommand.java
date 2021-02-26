@@ -32,7 +32,7 @@ public class VanishCommand extends Command
             return;
         }
 
-        vanishHandler.togglePlayer(player);
+        vanishHandler.togglePlayer(target);
         player.sendMessage("§7Toggled vanish for §a" + target.getName());
     }
 
