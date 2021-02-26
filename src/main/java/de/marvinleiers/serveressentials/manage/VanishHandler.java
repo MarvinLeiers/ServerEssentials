@@ -23,9 +23,16 @@ public class VanishHandler
     private VanishHandler()
     {
         this.scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-        vanishedTeam = scoreboard.registerNewTeam("vanished");
+        vanishedTeam = scoreboard.getTeam("vanished") == null ? scoreboard.registerNewTeam("vanished")
+                : scoreboard.getTeam("vanished");
 
         vanishedTeam.setCanSeeFriendlyInvisibles(true);
+    }
+
+    public void addToTeam(Player player)
+    {
+        vanishedTeam.addEntry(player.getName());
+        player.setScoreboard(scoreboard);
     }
 
     public void togglePlayer(Player player)

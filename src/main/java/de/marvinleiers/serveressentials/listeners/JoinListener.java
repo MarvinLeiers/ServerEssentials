@@ -21,5 +21,11 @@ public class JoinListener implements Listener
                 player.hidePlayer(ServerEssentials.getMPlugin(), vanished);
             }
         }
+        else
+        {
+            VanishHandler vanishHandler = VanishHandler.getInstance();
+
+            vanishHandler.addToTeam(player);
+        }
     }
 }
